@@ -1,0 +1,7 @@
+all: MemoryToy-c
+
+main.o: main.c led.h
+	cc -c main.c led.h
+MemoryToy-c: main.o
+	cc -o MemoryToy-c main.o
+
