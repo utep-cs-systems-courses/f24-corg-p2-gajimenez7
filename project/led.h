@@ -1,8 +1,8 @@
-#ifndef led_include
-#define led_include
+#ifndef led_included
+#define led_included
 
-#define LED_RED BIT0   // p1.0 red led is bit 0 on port 1
-#define LED_GREEN BIT6 // p1.6 green led is bit 6 on port 1
+#define LED_RED BIT0               // P1.0
+#define LED_GREEN BIT6             // P1.6
 #define LEDS (BIT0 | BIT6)
 
-#endif
+#endif // included

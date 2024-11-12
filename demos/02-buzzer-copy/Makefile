@@ -1,5 +1,5 @@
 # makfile configuration
-COMMON_OBJECTS  = main.o
+COMMON_OBJECTS  = 
 CPU             = msp430g2553
 CFLAGS          = -mmcu=${CPU} -I../h -L/opt/ti/msp430_gcc/include
 
@@ -7,20 +7,19 @@ CFLAGS          = -mmcu=${CPU} -I../h -L/opt/ti/msp430_gcc/include
 CC              = msp430-elf-gcc
 AS              = msp430-elf-as
 
-all: project2.elf 
+all: buzzer.elf 
 
 #additional rules for files
-project2.elf: ${COMMON_OBJECTS} buzzer.o main.o ../lib/libTimer.a
+buzzer.elf: ${COMMON_OBJECTS} buzzer.o buzzerMain.o ../lib/libTimer.a
 	${CC} ${CFLAGS} -o $@ $^
 
-load: project2.elf
+load: buzzer.elf
 	msp430loader.sh  $^
 
 clean: $^
 	rm -f *.o *.elf
 
 buzzer.c: buzzer.h
-
-main.c: buzzer.h led.h
+buzzerMain.c: buzzer.h
 
 

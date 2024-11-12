@@ -17,14 +17,13 @@ int main(void) {
 
   configureClocks();
   enableWDTInterrupts();
-
+ 
   or_sr(0x18);/* CPU off, GIE on */
 }
 
 void redState(){
   
   P1OUT |= LED_RED;
-
   P1OUT &= ~LED_GREEN;
  
 }
@@ -48,17 +47,16 @@ int secCount = 0;
 
 void
 __interrupt_vec(WDT_VECTOR) WDT(){
-  //secCount++
+  secCount++;
   
-  redState();
-  
-  /*
   if(secCount >= 250){
-    greenState();
-  } else if(secCount >= 500){
     redState();
-  } else if(secCount >= 750){
+  }
+  if(secCount >= 500){
+    greenState();
+  }
+  if(secCount >= 750){
     secCount = 0;
     offState();
-    }*/
+  }
 }
