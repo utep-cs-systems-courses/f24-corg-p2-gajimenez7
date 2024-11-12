@@ -7,9 +7,10 @@ CFLAGS          = -mmcu=${CPU} -I../h -L/opt/ti/msp430_gcc/include
 CC              = msp430-elf-gcc
 AS              = msp430-elf-as
 
-all:
+all: timerLib_install project2.elf
+
+timerLib_install:
 	(cd timerLib && make install)
-	project2.elf
 
 buzzer.c: buzzer.h
 
@@ -20,7 +21,7 @@ main.o: main.c buzzer.h led.h
 buzzer.o: buzzer.c buzzer.h
 
 #additional rules for files
-project2.elf: ${COMMON_OBJECTS} buzzer.o main.o ../lib/libTimer.a
+project2.elf: ${COMMON_OBJECTS} buzzer.o main.o ./lib/libTimer.a
 	${CC} ${CFLAGS} -o $@ $^
 
 load: project2.elf

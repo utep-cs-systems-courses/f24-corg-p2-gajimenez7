@@ -3,17 +3,51 @@
 #include "led.h"
 #include "buzzer.h"
 
+#define SW1 BIT3
+#define SWITCHES SW1
+
+void switch_init(){
+  P1REN |= SWITCHES;
+  P1IE |= SWITCHES;
+  P1OUT |= SWITCHES;
+}
+
+void led_init(){
+  P1DIR |= LEDS;
+  P1OUT &= ~LEDS;  
+}
+
+void wdt_init(){
+  configureClocks();
+  enableWDTInterrupts();
+}
+
 int main() {
-    P1DIR |= LEDS;
-    
-    configureClocks();
-    
-    buzzer_init();
 
-    enableWDTInterrupts();
+  switch_init();
+  buzzer_init();
+  led_init();
+  wdt_init();
 
+  or_sr(0x18);          // CPU off, GIE on
+}
 
-    or_sr(0x18);          // CPU off, GIE on
+// interrupt handler
+static int buttonDown;
+
+void switch_interrupt_handler(){
+  char p1val = P1IN;
+
+  P1IES |= (p1val & SWITCHES);
+  P1IES &= (p1val | ~SWITCHES);
+
+  if(p1val & SW1){
+    P1OUT &= ~LED_GREEN;
+    buttonDown = 0;
+  } else {
+    P1OUT |= LED_GREEN;
+    buttonDown = 1;
+  }
 }
 
 // led states
@@ -73,11 +107,8 @@ void noteF(){
 int count = 0;
 int count2 = 0;
 
-void
-__interrupt_vec(WDT_VECTOR) WDT(){
-  count++;
-
-  if(count2 < 3){
+void song1(){
+if(count2 < 3){
     if(count >= 100){
       redState();
       noteA();
@@ -116,5 +147,24 @@ __interrupt_vec(WDT_VECTOR) WDT(){
       count2 = 0;
       noteF();
     }
+  }
+}
+
+void
+__interrupt_vec(PORT1_VECTOR) Port_1(){
+  if(P1IFG & SWITCHES){
+    P1IFG &= ~SWITCHES;
+    switch_interrupt_handler();
+  }
+}
+
+void
+__interrupt_vec(WDT_VECTOR) WDT(){
+  count++;
+  if(buttonDown){
+    song1();
+  } else {
+    offState();
+    buzzer_set_period(0);
   }
 }
