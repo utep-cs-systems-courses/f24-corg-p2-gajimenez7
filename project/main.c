@@ -2,20 +2,7 @@
 #include "h/libTimer.h"
 #include "led.h"
 #include "buzzer.h"
-
-#define SW1 BIT3
-#define SWITCHES SW1
-
-void switch_init(){
-  P1REN |= SWITCHES;
-  P1IE |= SWITCHES;
-  P1OUT |= SWITCHES;
-}
-
-void led_init(){
-  P1DIR |= LEDS;
-  P1OUT &= ~LEDS;  
-}
+#include "switch.h"
 
 void wdt_init(){
   configureClocks();
@@ -36,12 +23,12 @@ int main() {
 static int buttonDown;
 
 void switch_interrupt_handler(){
-  char p1val = P1IN;
+  char p2val = P2IN;
 
-  P1IES |= (p1val & SWITCHES);
-  P1IES &= (p1val | ~SWITCHES);
+  P2IES |= (p2val & SWITCHES);
+  P2IES &= (p2val | ~SWITCHES);
 
-  if(p1val & SW1){
+  if(p2val & SW1){
     P1OUT &= ~LED_GREEN;
     buttonDown = 0;
   } else {
@@ -107,7 +94,7 @@ void noteF(){
 int count = 0;
 int count2 = 0;
 
-void song1(){
+void noSuprises(){
 if(count2 < 3){
     if(count >= 100){
       redState();
@@ -148,12 +135,12 @@ if(count2 < 3){
       noteF();
     }
   }
-}
+}:wq
 
 void
-__interrupt_vec(PORT1_VECTOR) Port_1(){
-  if(P1IFG & SWITCHES){
-    P1IFG &= ~SWITCHES;
+__interrupt_vec(PORT2_VECTOR) Port_2(){
+  if(P2IFG & SWITCHES){
+    P2IFG &= ~SWITCHES;
     switch_interrupt_handler();
   }
 }
@@ -162,7 +149,7 @@ void
 __interrupt_vec(WDT_VECTOR) WDT(){
   count++;
   if(buttonDown){
-    song1();
+    noSuprises();
   } else {
     offState();
     buzzer_set_period(0);
