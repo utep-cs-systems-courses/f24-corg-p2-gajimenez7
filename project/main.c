@@ -4,7 +4,7 @@
 #include "buzzer.h"
 #include "switch.h"
 
-extern void noSuprises(void);
+extern void noSurprises(void);
 
 void wdt_init(){
   configureClocks();
@@ -93,9 +93,6 @@ void noteF(){
   buzzer_set_period(2349);
 }
 
-int count = 0;
-int count2 = 0;
-
 /*
 void noSuprises(){
 if(count2 < 3){
@@ -151,9 +148,8 @@ __interrupt_vec(PORT2_VECTOR) Port_2(){
 
 void
 __interrupt_vec(WDT_VECTOR) WDT(){
-  count++;
   if(buttonDown){
-    noSuprises();
+    noSurprises();
   } else {
     offState();
     buzzer_set_period(0);

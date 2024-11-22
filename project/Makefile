@@ -1,5 +1,5 @@
 # makfile configuration
-COMMON_OBJECTS  = main.o noSuprises.o
+COMMON_OBJECTS  = main.o noSurprises.o
 CPU             = msp430g2553
 CFLAGS          = -mmcu=${CPU} -I../h -L/opt/ti/msp430_gcc/include
 
