@@ -1,5 +1,5 @@
 # makfile configuration
-COMMON_OBJECTS  = main.o
+COMMON_OBJECTS  = main.o noSuprises.o
 CPU             = msp430g2553
 CFLAGS          = -mmcu=${CPU} -I../h -L/opt/ti/msp430_gcc/include
 
@@ -27,6 +27,10 @@ switch.o: switch.c switch.h
 led.o: led.c led.h
 
 buzzer.o: buzzer.c buzzer.h
+
+#assembly file
+noSuprises.o: noSuprises.s
+	${AS} -mmcu=${CPU} $< -o $@
 
 #additional rules for files
 project2.elf: ${COMMON_OBJECTS} led.o switch.o buzzer.o main.o ./lib/libTimer.a

@@ -4,6 +4,8 @@
 #include "buzzer.h"
 #include "switch.h"
 
+extern void noSuprises(void);
+
 void wdt_init(){
   configureClocks();
   enableWDTInterrupts();
@@ -94,6 +96,7 @@ void noteF(){
 int count = 0;
 int count2 = 0;
 
+/*
 void noSuprises(){
 if(count2 < 3){
     if(count >= 100){
@@ -135,7 +138,8 @@ if(count2 < 3){
       noteF();
     }
   }
-}:wq
+}
+*/
 
 void
 __interrupt_vec(PORT2_VECTOR) Port_2(){
