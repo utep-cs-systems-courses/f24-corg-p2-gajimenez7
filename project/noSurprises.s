@@ -1,14 +1,22 @@
 	.arch msp430g2553
-	.data
-count:	.word 0
-count2:	 .word 0
-	
 	.p2align 1,0
-	.text
+	
+	.extern redState
+	.extern greenState
+	.extern bothState
+
+	.extern noteA
+	.extern noteB
+	.extern noteC
+	.extern noteD
+	.extern noteE
+	.extern noteF
+	
+	.extern count
+	.extern count2
 
 	.global noSurprises
-	.global count
-	.global count2
+	.text
 
 noSurprises:
 	;; moving count2 to register 4

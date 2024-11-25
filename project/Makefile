@@ -29,7 +29,7 @@ led.o: led.c led.h
 buzzer.o: buzzer.c buzzer.h
 
 #assembly file
-noSuprises.o: noSuprises.s
+noSurprises.o: noSurprises.s
 	${AS} -mmcu=${CPU} $< -o $@
 
 #additional rules for files

@@ -34,14 +34,12 @@ __interrupt_vec(WDT_VECTOR) WDT(){
   
   // testing polyphony
 
-  if(count >= 1){
+  if(count > 99){
     noteC6();
   }
-  if(count >= 2){
-    noteD6;
-  }
-  if(count >= 3){
-    count = 0;
+  if(count > 199){
+    noteD6();
+    
   }
   
 }
